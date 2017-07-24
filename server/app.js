@@ -15,14 +15,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/api/users', users);
 
-console.log(`listening on port 3000`);
 mongoose.connect(dbUrl, err => {
   if (err) console.log(`database not connected`);
   else {
     console.log(`database connected`);
   }
 })
+console.log(`listening on port 3000`);
 
 module.exports = app;
