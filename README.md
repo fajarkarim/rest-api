@@ -22,5 +22,6 @@ user just can edit and delete itself
 ## USAGE
 
 ```
+npm install
 npm start
 ```
