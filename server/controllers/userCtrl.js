@@ -16,7 +16,7 @@ var register = function (req, res) {
   })
 }
 
-var auth = function (req, res) {
+var login = function (req, res) {
   User.findOne({ email: req.body.email }, (err, found) => {
     if (err) {
       res.status(500).send(err)
@@ -37,7 +37,24 @@ var auth = function (req, res) {
   })
 }
 
+var auth = function (req, res, next) {
+  let token = req.headers.token
+  if (token) {
+    jwt.verify(token, SECRET, (err, decoded) => {
+      err ? res.status(403).send('you are not authorized') : res.send(decoded)
+    })
+  } else {
+    res.send('you need login first')
+  }
+}
+
+var ping = function (req, res) {
+  res.send('PONGG !!')
+}
+
 module.exports = {
   register,
-  auth
+  login,
+  auth,
+  ping
 }

@@ -4,6 +4,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/register', userCtrl.register)
-router.post('/auth', userCtrl.auth)
+router.post('/login', userCtrl.login)
+router.get('/ping', userCtrl.auth, userCtrl.ping)
 
 module.exports = router;
