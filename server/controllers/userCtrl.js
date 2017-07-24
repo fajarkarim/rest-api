@@ -26,8 +26,9 @@ var login = function (req, res) {
       let pass = bcrypt.compareSync(req.body.password, found.password)
       if (pass) {
         let token = jwt.sign({
-          email: req.body.email,
-          role: req.body.role
+          id: found.id,
+          email: found.email,
+          role: found.role
         }, SECRET)
         res.send(token)
       } else {
@@ -37,24 +38,52 @@ var login = function (req, res) {
   })
 }
 
-var auth = function (req, res, next) {
-  let token = req.headers.token
-  if (token) {
-    jwt.verify(token, SECRET, (err, decoded) => {
-      err ? res.status(403).send('you are not authorized') : res.send(decoded)
-    })
-  } else {
-    res.send('you need login first')
-  }
-}
-
 var ping = function (req, res) {
   res.send('PONGG !!')
+}
+
+var getAll = function (req, res) {
+  User.find({}, (err, users) => {
+    err ? res.status(500).send(err) : res.send(users)
+  })
+}
+
+var getOne = function (req, res) {
+  User.findById(req.params.id, (err, user) => {
+    err ? res.status(500).send(err) : res.send(user)
+  })
+}
+
+var edit = function (req, res) {
+  User.findById(req.params.id, (err, user) => {
+    if (err) res.status(500).send(err)
+    else {
+      let user = new User({
+        email: req.body.email,
+        password: req.body.password
+      })
+    }
+  })
+}
+
+var remove = function (req, res) {
+  let response = {}
+  User.findByIdAndRemove(req.params.id, (err, destroyed) => {
+    if (err) {
+      res.status(500).send(err)
+    } else {
+      response.message = `Successful destroyed`
+      response.user = destroyed
+    }
+  })
 }
 
 module.exports = {
   register,
   login,
-  auth,
-  ping
+  ping,
+  getAll,
+  getOne,
+  edit,
+  remove
 }
