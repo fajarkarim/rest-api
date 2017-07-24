@@ -2,7 +2,7 @@
 
 ## Description
 
-Simple API with login, register, and forgot password. Using JWT, mangoose as ODM, and mongodb as database
+Simple API with login, register, and CRUD features. Using JWT, mangoose as ODM, and mongodb as database
 
 ## API user
 
