@@ -74,6 +74,7 @@ var remove = function (req, res) {
     } else {
       response.message = `Successful destroyed`
       response.user = destroyed
+      res.send(response)
     }
   })
 }
